@@ -1,0 +1,15 @@
+language: go
+go:
+- 1.8.x
+before_deploy:
+- echo 'Pre deployment to Heroku'
+deploy:
+  provider: heroku
+  api_key:
+    secure: YhFIeFHi3Vr5QmU9wwrMkg9XsZQeZaLb1IWyBoaJfHZ1jMi0MbO88dR6zTnwJAVu9JB8PDgClcT8G3JMpOwI2twgUKxXZ4dWSb4aMKcezJgwJLJ1z1U3pP9Tl+fYxFLojtnGqcI+mYkdwJV/bVLb8fWHVgpc+fWkbL4x0aTvqkRzVyMBGuI3EXn2JrL6kzeLcspmhu/HcMhec0THZBHEmv9XtB/LedT33nXA8qBxGMWJYKrZSosGRpljfZdKAIjt2SM/lRh8TJayhYxIJAdaLgWCBckU/i8DuHzzbT3z9350IXIH8FnqxgY8ENL64hywkMf/mUn/u0MSRkwVZM2LorjOMQy3HbmMNghE02bQua3dnDIhEiN/KWD7nywzlQxN+BBkzCWgcplUsPQHq4L3Oh1LeYjQlx1KRvvs6RuXD6ZHu+hTyVxFomvOhD2snR/x4CVaUeDFxEDZFSHQrxoaQplX3zlVxBy/6okNPbuUr42fT6Vg5zK82bQazxujsCv/6qMn0oElrIEj30EDh3H4Z4cfLNI2GDTwceI7HU7tmLh4vh5M1ND7Gc5ax9si6ndFmNGxewp7wQDiDGN1GdEwRFKIv6XXDLKYppEj+hehCZjrsYxfpsjMFppmjTpqVvMqS2W1ASaLqH8gRiVE0lN59RLDHzgy6NF0SekBNsmcCZI=
+  app: soapigo
+  on:
+    repo: nikhosagala/soapi
+  skip_cleanup: true
+notifications:
+  email: false

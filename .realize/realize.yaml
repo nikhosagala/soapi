@@ -1,0 +1,35 @@
+settings:
+  files:
+    outputs:
+      status: true
+      name: outputs.log
+    logs:
+      status: true
+      name: logs.log
+    errors:
+      status: true
+      name: errors.log
+  legacy:
+    force: false
+    interval: 100ms
+server:
+  status: true
+  open: false
+  port: 5001
+  host: localhost
+schema:
+- name: soapi
+  path: .
+  commands:
+    run: true
+  watcher:
+    paths:
+    - /
+    extensions:
+    - go
+    - ts
+    - html
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor

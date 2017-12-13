@@ -1,0 +1,14 @@
+# editor ignore
+.vscode/*
+.idea/*
+*.iml
+
+# go ignore
+*.exe
+*.test
+vendor
+
+# angular ignore
+dist
+node_modules
+public
