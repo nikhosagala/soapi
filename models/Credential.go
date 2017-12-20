@@ -3,8 +3,8 @@ package models
 // Admin ...
 type Admin struct {
 	BaseModel
-	Username  string `json:"username" binding:"required"`
-	Password  string `json:"password" binding:"required"`
+	Username  string `json:"username" binding:"required" gorm:"unique"`
+	Password  string `json:"password" binding:"required" gorm:"not null"`
 	BranchID  uint   `json:"branch_id"`
 	SessionID uint   `json:"session_id"`
 	Token     string `json:"token"`

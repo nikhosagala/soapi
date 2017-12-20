@@ -15,8 +15,6 @@ func CreateAdmin(c *gin.Context) {
 		payload = utils.Error(err)
 	} else {
 		var adminSave *models.Admin
-		admin.Password = utils.CreatePassword(admin.Password)
-		admin.Token = utils.Token()
 		adminSave, err2 := db.CreateAdmin(&admin)
 		if err2 != nil {
 			payload = utils.ErrorMessage(err2.Error(), "Username "+admin.Username+" already exist.")
@@ -38,7 +36,7 @@ func ReadAdmins(c *gin.Context) {
 func ReadAdmin(c *gin.Context) {
 	id := utils.ParseParam2Int(c.Param("id"))
 	admin := db.ReadAdmin(id)
-	if admin.ID == 0 || admin.DeletedAt != nil {
+	if utils.CheckIDAndDeleted(admin.BaseModel) {
 		payload = utils.NotFoundPayload("Admin")
 	} else {
 		payload = utils.Success(0, 0, admin, "")
@@ -48,16 +46,19 @@ func ReadAdmin(c *gin.Context) {
 
 // UpdateAdmin ...
 func UpdateAdmin(c *gin.Context) {
-	var admin *models.Admin
+	var admin models.Admin
 	err := c.ShouldBindJSON(&admin)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
-		admin, err2 := db.UpdateAdmin(admin)
-		if err2 != nil {
+		var adminUpdate *models.Admin
+		adminUpdate, err2 := db.UpdateAdmin(&admin)
+		if utils.CheckIDAndDeleted(adminUpdate.BaseModel) {
+			payload = utils.NotFoundPayload("Admin")
+		} else if err2 != nil {
 			payload = utils.ErrorMessage(err2.Error(), "Username "+admin.Username+" already exist.")
 		} else {
-			adminUpdate := db.ReadAdmin(admin.ID)
+			// adminUpdate := db.ReadAdmin(adminUpdate.ID)
 			payload = utils.Success(0, 0, adminUpdate.BaseModel, "Admin updated.")
 		}
 	}

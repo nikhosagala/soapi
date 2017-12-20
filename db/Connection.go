@@ -6,13 +6,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	// pg driver
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // DB is a var to define database from gorm
 var DB *gorm.DB
 
 // CreateConnection to database,
-// if development, use database name herobio
+// if development, use database name soapi
 // if production, use database_url env from Heroku
 func CreateConnection() *gorm.DB {
 	var migrate = true
@@ -35,6 +37,7 @@ func CreateConnection() *gorm.DB {
 }
 
 // CloseConnection function to close connection from database
-func CloseConnection() {
-	DB.Close()
+func CloseConnection() error {
+	err := DB.Close()
+	return err
 }

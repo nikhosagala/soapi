@@ -14,7 +14,8 @@ func CreateService(c *gin.Context) {
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
-		service.Code = utils.Code(service.Name)
+		size := len(db.ReadServices(-1, 0))
+		service.Code = utils.Code(service.Name, size)
 		var serviceSave *models.Service
 		serviceSave = db.CreateService(&service)
 		payload = utils.Success(0, 0, serviceSave.BaseModel, "Service created.")

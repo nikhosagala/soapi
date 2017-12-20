@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/nikhosagala/soapi/conf"
 	"github.com/nikhosagala/soapi/db"
 )

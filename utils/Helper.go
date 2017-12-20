@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/nikhosagala/soapi/db"
+	"github.com/nikhosagala/soapi/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -38,9 +38,9 @@ func Token() string {
 }
 
 // Code ...
-func Code(code string) string {
+func Code(code string, size int) string {
 	c := []byte(code)[0:3]
-	d := len(db.ReadServices(-1, 0)) + 1
+	d := size + 1
 	return string(c) + appentInt(d)
 }
 
@@ -58,4 +58,12 @@ func appentInt(code int) string {
 		result = c
 	}
 	return result
+}
+
+// CheckIDAndDeleted ...
+func CheckIDAndDeleted(check models.BaseModel) bool {
+	if check.ID == 0 || check.DeletedAt != nil {
+		return true
+	}
+	return false
 }

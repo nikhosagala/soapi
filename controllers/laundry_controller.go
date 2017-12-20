@@ -9,12 +9,12 @@ import (
 
 // CreateCompany ...
 func CreateCompany(c *gin.Context) {
-	var company *models.Company
+	var company models.Company
 	err := c.ShouldBindJSON(&company)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
-		company = db.CreateCompany(company)
+		company := db.Create(&company).(*models.Company)
 		payload = utils.Success(0, 0, company.BaseModel, "Company created.")
 	}
 	utils.Render(c, payload)
@@ -41,17 +41,17 @@ func ReadCompany(c *gin.Context) {
 
 // UpdateCompany ...
 func UpdateCompany(c *gin.Context) {
-	var company *models.Company
+	var company models.Company
 	err := c.ShouldBindJSON(&company)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
-		company = db.UpdateCompany(company)
-		company := db.ReadCompany(company.ID)
-		if company.ID == 0 || company.DeletedAt != nil {
+		company := db.Update(&company).(*models.Company)
+		companyUpdated := db.ReadCompany(company.ID)
+		if utils.CheckIDAndDeleted(company.BaseModel) {
 			payload = utils.NotFoundPayload("Company")
 		} else {
-			payload = utils.Success(0, 0, company.BaseModel, "Company updated.")
+			payload = utils.Success(0, 0, companyUpdated.BaseModel, "Company updated.")
 		}
 	}
 	utils.Render(c, payload)
@@ -61,10 +61,10 @@ func UpdateCompany(c *gin.Context) {
 func DeleteCompany(c *gin.Context) {
 	id := utils.ParseParam2Int(c.Param("id"))
 	company := db.ReadCompany(id)
-	if company.ID == 0 || company.DeletedAt != nil {
+	if utils.CheckIDAndDeleted(company.BaseModel) {
 		payload = utils.NotFoundPayload("Company")
 	} else {
-		db.DeleteCompany(&company)
+		db.Delete(&company)
 		payload = utils.Success(0, 0, company.BaseModel, "Company deleted.")
 	}
 	utils.Render(c, payload)
@@ -72,12 +72,12 @@ func DeleteCompany(c *gin.Context) {
 
 // CreateBranch ...
 func CreateBranch(c *gin.Context) {
-	var branch *models.Branch
+	var branch models.Branch
 	err := c.ShouldBindJSON(&branch)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
-		branch = db.CreateBranch(branch)
+		branch := db.Create(&branch).(*models.Branch)
 		payload = utils.Success(0, 0, branch.BaseModel, "Branch created.")
 	}
 	utils.Render(c, payload)
@@ -86,7 +86,7 @@ func CreateBranch(c *gin.Context) {
 // ReadBranches ...
 func ReadBranches(c *gin.Context) {
 	limit, offset := utils.LimitAndOffset(c.Query("limit"), c.Query("offset"))
-	payload = utils.Success(limit, offset, db.ReadAllBranches(limit, offset), "")
+	payload = utils.Success(limit, offset, db.ReadBranches(limit, offset), "")
 	utils.Render(c, payload)
 }
 
@@ -104,17 +104,17 @@ func ReadBranch(c *gin.Context) {
 
 // UpdateBranch ...
 func UpdateBranch(c *gin.Context) {
-	var branch *models.Branch
+	var branch models.Branch
 	err := c.ShouldBindJSON(&branch)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
-		branch = db.UpdateBranch(branch)
-		branch := db.ReadBranch(branch.ID)
-		if branch.ID == 0 || branch.DeletedAt != nil {
+		branch := db.Update(&branch).(*models.Branch)
+		branchUpdated := db.ReadBranch(branch.ID)
+		if utils.CheckIDAndDeleted(branch.BaseModel) {
 			payload = utils.NotFoundPayload("Branch")
 		} else {
-			payload = utils.Success(0, 0, branch.BaseModel, "Branch updated.")
+			payload = utils.Success(0, 0, branchUpdated.BaseModel, "Branch updated.")
 		}
 	}
 	utils.Render(c, payload)
@@ -124,10 +124,10 @@ func UpdateBranch(c *gin.Context) {
 func DeleteBranch(c *gin.Context) {
 	id := utils.ParseParam2Int(c.Param("id"))
 	branch := db.ReadBranch(id)
-	if branch.ID == 0 || branch.DeletedAt != nil {
+	if utils.CheckIDAndDeleted(branch.BaseModel) {
 		payload = utils.NotFoundPayload("Branch")
 	} else {
-		db.DeleteBranch(&branch)
+		db.Delete(&branch)
 		payload = utils.Success(0, 0, branch.BaseModel, "Branch deleted.")
 	}
 	utils.Render(c, payload)
@@ -135,7 +135,7 @@ func DeleteBranch(c *gin.Context) {
 
 // CreateCustomer ...
 func CreateCustomer(c *gin.Context) {
-	var customer *models.Customer
+	var customer models.Customer
 	err := c.ShouldBindJSON(&customer)
 	if err != nil {
 		payload = utils.Error(err)
@@ -143,7 +143,7 @@ func CreateCustomer(c *gin.Context) {
 		if customer.Password != "" {
 			customer.Password = utils.CreatePassword(customer.Password)
 		}
-		customer = db.CreateCustomer(customer)
+		customer := db.Create(&customer).(*models.Customer)
 		payload = utils.Success(0, 0, customer.BaseModel, "Customer created.")
 	}
 	utils.Render(c, payload)
@@ -170,17 +170,17 @@ func ReadCustomer(c *gin.Context) {
 
 // UpdateCustomer ...
 func UpdateCustomer(c *gin.Context) {
-	var customer *models.Customer
+	var customer models.Customer
 	err := c.ShouldBindJSON(&customer)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
-		customer = db.UpdateCustomer(customer)
-		customer := db.ReadCustomer(customer.ID)
-		if customer.ID == 0 || customer.DeletedAt != nil {
+		customer := db.Update(&customer).(*models.Customer)
+		customerUpdated := db.ReadCustomer(customer.ID)
+		if utils.CheckIDAndDeleted(customer.BaseModel) {
 			payload = utils.NotFoundPayload("Customer")
 		} else {
-			payload = utils.Success(0, 0, customer.BaseModel, "Customer updated.")
+			payload = utils.Success(0, 0, customerUpdated.BaseModel, "Customer updated.")
 		}
 	}
 	utils.Render(c, payload)
@@ -190,10 +190,10 @@ func UpdateCustomer(c *gin.Context) {
 func DeleteCustomer(c *gin.Context) {
 	id := utils.ParseParam2Int(c.Param("id"))
 	customer := db.ReadCustomer(id)
-	if customer.ID == 0 || customer.DeletedAt != nil {
+	if utils.CheckIDAndDeleted(customer.BaseModel) {
 		payload = utils.NotFoundPayload("Customer")
 	} else {
-		db.DeleteCustomer(&customer)
+		db.Delete(&customer)
 		payload = utils.Success(0, 0, customer.BaseModel, "Customer deleted.")
 	}
 	utils.Render(c, payload)
