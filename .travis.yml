@@ -1,6 +1,11 @@
 language: go
 go:
 - 1.8.x
+before_script:
+- psql -c 'create database soapi;' -U postgres
+- psql -c "alter user postgres with password 'postgres';" -U postgres
+services:
+- postgresql
 before_deploy:
 - echo 'Pre deployment to Heroku'
 deploy:
