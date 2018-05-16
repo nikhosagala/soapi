@@ -6,6 +6,7 @@ import "log"
 // Migrate function to migrate model from model package
 func Migrate(migrate bool) {
 	DropTables(migrate)
+	log.Println("Create tables")
 	DB.AutoMigrate(&models.Admin{}, &models.Branch{}, &models.OrderDetails{}, &models.Company{})
 	DB.AutoMigrate(&models.Customer{}, &models.Order{}, &models.Service{}, &models.Session{})
 }
@@ -14,7 +15,7 @@ func Migrate(migrate bool) {
 func DropTables(migrate bool) {
 	if migrate {
 		log.Println("Migrating")
-		log.Println("")
+		log.Println("Drop tables")
 		DB.DropTableIfExists(&models.Admin{})
 		DB.DropTableIfExists(&models.Branch{})
 		DB.DropTableIfExists(&models.OrderDetails{})

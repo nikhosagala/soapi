@@ -8,6 +8,7 @@ import (
 
 func TestAdmin(t *testing.T) {
 	CreateConnection()
+	defer CloseConnection()
 	admin1 := models.Admin{Username: "nikhosagala", Password: ""}
 
 	_, err := CreateAdmin(&admin1)
@@ -77,6 +78,6 @@ func TestAdmin(t *testing.T) {
 	}
 }
 
-func TestConnection(t *testing.T){
-	
+func TestConnection(t *testing.T) {
+
 }

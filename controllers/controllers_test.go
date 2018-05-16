@@ -60,7 +60,7 @@ func TestInsert(t *testing.T) {
 	r := gin.Default()
 	r.POST("/api/test/admin/create", CreateAdmin)
 	req, _ := http.NewRequest("POST", "/api/test/admin/create", body)
-	req.Header.Set("Content-Type", "application/jsonData")
+	req.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()
 
 	r.ServeHTTP(w, req)
@@ -69,8 +69,8 @@ func TestInsert(t *testing.T) {
 		t.Errorf("Response code should be Ok, was: %v", w.Code)
 	}
 
-	if w.HeaderMap.Get("Content-Type") != "application/jsonData; charset=utf-8" {
-		t.Errorf("Content-Type should be application/jsonData; charset=utf-8, was %s", w.HeaderMap.Get("Content-Type"))
+	if w.HeaderMap.Get("Content-Type") != "application/json; charset=utf-8" {
+		t.Errorf("Content-Type should be application/json; charset=utf-8, was %s", w.HeaderMap.Get("Content-Type"))
 	}
 }
 
@@ -87,7 +87,7 @@ func TestUpdate(t *testing.T) {
 	r.PUT("/api/test/admin/update", UpdateAdmin)
 
 	req, _ := http.NewRequest("PUT", "/api/test/admin/update", body)
-	req.Header.Set("Content-Type", "application/jsonData")
+	req.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()
 
 	r.ServeHTTP(w, req)
@@ -96,8 +96,8 @@ func TestUpdate(t *testing.T) {
 		t.Errorf("Response code should be NotFound, was: %d", w.Code)
 	}
 
-	if w.HeaderMap.Get("Content-Type") != "application/jsonData; charset=utf-8" {
+	if w.HeaderMap.Get("Content-Type") != "application/json; charset=utf-8" {
 		t.Errorf(w.Body.String())
-		t.Errorf("Content-Type should be application/jsonData; charset=utf-8, was %s", w.HeaderMap.Get("Content-Type"))
+		t.Errorf("Content-Type should be application/json; charset=utf-8, was %s", w.HeaderMap.Get("Content-Type"))
 	}
 }

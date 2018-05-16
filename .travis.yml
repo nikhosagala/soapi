@@ -2,7 +2,8 @@ language: go
 go:
 - 1.10.x
 before_script:
-- psql -c 'create database soapi;' -U postgres
+- psql -c "create database soapi;" -U postgres
+- psql -c "create user soapiuser with password 'soapipass';" -U postgres
 - psql -c "alter user postgres with password 'postgres';" -U postgres
 services:
 - postgresql
