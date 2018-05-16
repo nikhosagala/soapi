@@ -10,7 +10,7 @@ import (
 // CreateAdmin ...
 func CreateAdmin(c *gin.Context) {
 	var admin models.Admin
-	err := c.ShouldBindJSON(&admin)
+	err := c.BindJSON(&admin)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -47,7 +47,7 @@ func ReadAdmin(c *gin.Context) {
 // UpdateAdmin ...
 func UpdateAdmin(c *gin.Context) {
 	var admin models.Admin
-	err := c.ShouldBindJSON(&admin)
+	err := c.BindJSON(&admin)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {

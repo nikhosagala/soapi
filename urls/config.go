@@ -1,4 +1,4 @@
-package conf
+package urls
 
 import (
 	"github.com/gin-contrib/cors"

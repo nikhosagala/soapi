@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/nikhosagala/soapi/conf"
 	"github.com/nikhosagala/soapi/db"
+	"github.com/nikhosagala/soapi/urls"
 )
 
 func main() {
@@ -14,11 +14,11 @@ func main() {
 
 	db.Seed()
 
-	conf.InitializeEngine()
+	urls.InitializeEngine()
 
-	conf.InitializeRoutes()
+	urls.InitializeRoutes()
 
-	conf.Run() // listen and serve on 0.0.0.0:8080
+	urls.Run() // listen and serve on 0.0.0.0:8080
 }
 
 func getJSON(v interface{}) string {

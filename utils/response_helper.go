@@ -1,24 +1,24 @@
 package utils
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
+	"github.com/nikhosagala/soapi/models"
+	"strconv"
 )
 
 // Render content
 func Render(c *gin.Context, data gin.H) {
-	code := data["code"]
 	payload := data["payload"]
+	code := payload.(models.Response).Code
 	switch c.Request.Header.Get("Accept") {
 	case "application/json":
-		c.JSON(code.(int), payload)
+		c.JSON(code, payload)
 	case "application/xml":
 		// Respond with XML
-		c.XML(code.(int), payload)
+		c.XML(code, payload)
 	default:
 		// Respond with JSON
-		c.JSON(code.(int), payload)
+		c.JSON(code, payload)
 	}
 }
 

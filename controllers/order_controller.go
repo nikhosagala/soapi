@@ -10,7 +10,7 @@ import (
 // CreateOrder ...
 func CreateOrder(c *gin.Context) {
 	var order models.Order
-	err := c.ShouldBindJSON(&order)
+	err := c.BindJSON(&order)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -47,7 +47,7 @@ func ReadOrder(c *gin.Context) {
 // UpdateOrder ...
 func UpdateOrder(c *gin.Context) {
 	var order *models.Order
-	err := c.ShouldBindJSON(&order)
+	err := c.BindJSON(&order)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {

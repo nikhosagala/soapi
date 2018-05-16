@@ -10,7 +10,7 @@ import (
 // CreateCompany ...
 func CreateCompany(c *gin.Context) {
 	var company models.Company
-	err := c.ShouldBindJSON(&company)
+	err := c.BindJSON(&company)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -42,7 +42,7 @@ func ReadCompany(c *gin.Context) {
 // UpdateCompany ...
 func UpdateCompany(c *gin.Context) {
 	var company models.Company
-	err := c.ShouldBindJSON(&company)
+	err := c.BindJSON(&company)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -73,7 +73,7 @@ func DeleteCompany(c *gin.Context) {
 // CreateBranch ...
 func CreateBranch(c *gin.Context) {
 	var branch models.Branch
-	err := c.ShouldBindJSON(&branch)
+	err := c.BindJSON(&branch)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -105,7 +105,7 @@ func ReadBranch(c *gin.Context) {
 // UpdateBranch ...
 func UpdateBranch(c *gin.Context) {
 	var branch models.Branch
-	err := c.ShouldBindJSON(&branch)
+	err := c.BindJSON(&branch)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -136,7 +136,7 @@ func DeleteBranch(c *gin.Context) {
 // CreateCustomer ...
 func CreateCustomer(c *gin.Context) {
 	var customer models.Customer
-	err := c.ShouldBindJSON(&customer)
+	err := c.BindJSON(&customer)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -171,7 +171,7 @@ func ReadCustomer(c *gin.Context) {
 // UpdateCustomer ...
 func UpdateCustomer(c *gin.Context) {
 	var customer models.Customer
-	err := c.ShouldBindJSON(&customer)
+	err := c.BindJSON(&customer)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {

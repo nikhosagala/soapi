@@ -10,7 +10,7 @@ import (
 // CreateService ..
 func CreateService(c *gin.Context) {
 	var service models.Service
-	err := c.ShouldBindJSON(&service)
+	err := c.BindJSON(&service)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -24,28 +24,28 @@ func CreateService(c *gin.Context) {
 }
 
 // ReadServices ...
-func ReadServices(c *gin.Context){
+func ReadServices(c *gin.Context) {
 	limit, offset := utils.LimitAndOffset(c.Query("limit"), c.Query("offset"))
 	payload = utils.Success(limit, offset, db.ReadServices(limit, offset), "")
 	utils.Render(c, payload)
 }
 
 // ReadService ...
-func ReadService(c *gin.Context){
+func ReadService(c *gin.Context) {
 	id := utils.ParseParam2Int(c.Param("id"))
 	service := db.ReadService(id)
 	if service.ID == 0 || service.DeletedAt != nil {
 		payload = utils.NotFoundPayload("Service")
-	}else{
+	} else {
 		payload = utils.Success(0, 0, service, "")
 	}
 	utils.Render(c, payload)
 }
 
 // UpdateService ...
-func UpdateService(c *gin.Context){
+func UpdateService(c *gin.Context) {
 	var service *models.Service
-	err := c.ShouldBindJSON(&service)
+	err := c.BindJSON(&service)
 	if err != nil {
 		payload = utils.Error(err)
 	} else {
@@ -57,7 +57,7 @@ func UpdateService(c *gin.Context){
 }
 
 // DeleteService ...
-func DeleteService(c *gin.Context){
+func DeleteService(c *gin.Context) {
 	id := utils.ParseParam2Int(c.Param("id"))
 	service := db.ReadService(id)
 	if service.ID == 0 || service.DeletedAt != nil {

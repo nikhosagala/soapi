@@ -18,7 +18,7 @@ var DB *gorm.DB
 // if production, use database_url env from Heroku
 func CreateConnection() *gorm.DB {
 	var migrate = true
-	var url = "host=localhost user=postgres dbname=soapi sslmode=disable password=postgres"
+	var url = "host=localhost user=soapiuser dbname=soapi sslmode=disable password=soapipass"
 	if strings.Compare(os.Getenv("GIN_MODE"), gin.ReleaseMode) == 0 {
 		url = os.Getenv("DATABASE_URL")
 		migrate = false

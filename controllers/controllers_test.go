@@ -17,7 +17,7 @@ func connectDb() {
 	db.Seed()
 }
 
-func closeDb(){
+func closeDb() {
 	db.CloseConnection()
 }
 
@@ -55,22 +55,22 @@ func TestInsert(t *testing.T) {
 	connectDb()
 	defer closeDb()
 	admin := models.Admin{Username: "nikhosagala", Password: "1234"}
-	json, _ := json.Marshal(admin)
-	body := bytes.NewBuffer(json)
+	jsonData, _ := json.Marshal(admin)
+	body := bytes.NewBuffer(jsonData)
 	r := gin.Default()
 	r.POST("/api/test/admin/create", CreateAdmin)
 	req, _ := http.NewRequest("POST", "/api/test/admin/create", body)
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Type", "application/jsonData")
 	w := httptest.NewRecorder()
 
 	r.ServeHTTP(w, req)
 
 	if w.Code != 200 {
-		t.Errorf("Response code should be Ok, was: %s", w.Code)
+		t.Errorf("Response code should be Ok, was: %v", w.Code)
 	}
 
-	if w.HeaderMap.Get("Content-Type") != "application/json; charset=utf-8" {
-		t.Errorf("Content-Type should be application/json; charset=utf-8, was %s", w.HeaderMap.Get("Content-Type"))
+	if w.HeaderMap.Get("Content-Type") != "application/jsonData; charset=utf-8" {
+		t.Errorf("Content-Type should be application/jsonData; charset=utf-8, was %s", w.HeaderMap.Get("Content-Type"))
 	}
 }
 
@@ -80,14 +80,14 @@ func TestUpdate(t *testing.T) {
 	baseModel := models.BaseModel{ID: 1}
 	admin := models.Admin{BaseModel: baseModel, Username: "nikhosagala", Password: "1234"}
 
-	json, _ := json.Marshal(admin)
-	body := bytes.NewBuffer(json)
+	jsonData, _ := json.Marshal(admin)
+	body := bytes.NewBuffer(jsonData)
 
 	r := gin.Default()
 	r.PUT("/api/test/admin/update", UpdateAdmin)
 
 	req, _ := http.NewRequest("PUT", "/api/test/admin/update", body)
-	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Content-Type", "application/jsonData")
 	w := httptest.NewRecorder()
 
 	r.ServeHTTP(w, req)
@@ -96,8 +96,8 @@ func TestUpdate(t *testing.T) {
 		t.Errorf("Response code should be NotFound, was: %d", w.Code)
 	}
 
-	if w.HeaderMap.Get("Content-Type") != "application/json; charset=utf-8" {
+	if w.HeaderMap.Get("Content-Type") != "application/jsonData; charset=utf-8" {
 		t.Errorf(w.Body.String())
-		t.Errorf("Content-Type should be application/json; charset=utf-8, was %s", w.HeaderMap.Get("Content-Type"))
+		t.Errorf("Content-Type should be application/jsonData; charset=utf-8, was %s", w.HeaderMap.Get("Content-Type"))
 	}
 }

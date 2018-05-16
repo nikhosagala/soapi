@@ -1,10 +1,10 @@
 package db
 
 // Create function to insert data to database
-func Create(insert interface{}) interface{} {
-	DB.NewRecord(insert)
-	DB.Create(insert)
-	return insert
+func Create(create interface{}) interface{} {
+	DB.NewRecord(create)
+	DB.Create(create)
+	return create
 }
 
 // Update function to update row to database
